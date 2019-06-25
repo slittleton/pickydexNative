@@ -9,7 +9,7 @@ import {
 import { connect } from "react-redux";
 
 class SearchBox extends Component {
-  
+
   state = {
     searchTerm: ""
   };
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   textInput: {
-    color: "white",
+    color: "black",
     fontSize: 20,
     paddingLeft: 15
   },
