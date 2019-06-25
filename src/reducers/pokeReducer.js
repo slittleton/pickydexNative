@@ -1,15 +1,14 @@
 import {
   CURRENT_SEARCHED_POKEMON,
   CURRENT_POKEMON_DATA,
-  ADD_POKEMON_TO_LIST,
   SET_POKEMON_LIST_FROM_LOCAL,
-  DEL_POKEMON_FROM_LIST,
   FAVORITES_LIST,
-  SET_FAVORITES_LIST_FROM_LOCAL
+  SET_FAVORITES_LIST_FROM_LOCAL,
+  UPDATE_POKEMON_LIST
 } from '../actions/actionTypes';
 
 const initialState = {
-  pokemonList: [],
+  pokemonList: ['pichu'],
   searchedForPokemon: '',
   currentPokemonData: '',
   favoritesList: []
@@ -27,10 +26,10 @@ export default (state=initialState, action) => {
         ...state,
         currentPokemonData: action.payload
       };
-    case ADD_POKEMON_TO_LIST:
+    case UPDATE_POKEMON_LIST:
       return{
         ...state,
-        pokemonList: [...state.pokemonList, searchedForPokemon],
+        pokemonList: action.payload.newList,
       }
     default: return state
   }

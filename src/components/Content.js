@@ -8,60 +8,63 @@ import {
   Image
 } from "react-native";
 import { connect } from "react-redux";
+
+import { addPokemonToList, delPokemonFromList } from '../actions';
+
 import SearchBox from "./layout/SearchBox";
+import DisplayResult from "./DisplayResult";
 
 class Content extends Component {
-  render() {
-    const {
-      searchTerm,
-      species,
-      abilities,
-      height,
-      id,
-      types,
-      weight,
-      moves,
-      locations,
-      sprite
-    } = this.props.currentPokemonData;
+  addToList = () => {
+    const { currentPokemonData, pokemonList } = this.props;
+    this.props.addPokemonToList(currentPokemonData, pokemonList)
+  };
+    
+  delFromList = () => {
+    const { currentPokemonData, pokemonList } = this.props;
+    this.props.delPokemonFromList(currentPokemonData, pokemonList)
+  };
 
+
+  renderButtons = () => {
+    const { currentPokemonData, pokemonList} = this.props
+    if(currentPokemonData !== '' && !pokemonList.includes(currentPokemonData.species)){
+      return (
+        <View styles={styles.addDelbtns}>
+          <View>
+            <TouchableOpacity style={styles.btn} onPress={() => this.addToList()}>
+              <Text style={styles.btnText}>Add</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    } else if(pokemonList.includes(currentPokemonData.species)) {
+      return (
+        <View styles={styles.addDelbtns}>
+          <View>
+            <TouchableOpacity style={styles.btn} onPress={() => this.delFromList()}>
+              <Text style={styles.btnText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+
+  };
+
+  render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}> Pickydex </Text>
         <SearchBox />
 
-        <View style={styles.speciesSprite}>
-          <Text style={styles.speciesTitle}>{species}</Text>
-          <View styles={styles.sprite}>
-            <Image source={{ uri: sprite }} style={styles.sprite} />
-          </View>
-        </View>
-        <View style={styles.searchResultInfo}>
+        <Text>{JSON.stringify(this.props.pokemonList)}</Text>
 
-          <View style={styles.infoItem}>
-            <View><Text style={styles.text}>Species:</Text></View>
-            <View><Text style={styles.text}>{species}</Text></View>
-          </View>
-          {/* <View style={styles.infoItem}>
-            <View><Text style={styles.text}>Types:</Text></View>
-            <View><Text style={styles.text}>{types.join(", ")}</Text></View>
-          </View>
-          <View style={styles.infoItem}>
-            <View><Text style={styles.text}>Abilities:</Text></View>
-            <View><Text style={styles.text}>{abilities.join(", ")}</Text></View>
-          </View>
-          */}
-          <View style={styles.infoItem}>
-            <View><Text style={styles.text}>Height:</Text></View>
-            <View><Text style={styles.text}>{parseInt(height)* 10} cm</Text></View>
-          </View>
-          <View style={styles.infoItem}>
-            <View><Text style={styles.text}>Weight:</Text></View>
-            <View><Text style={styles.text}>{weight / 10} kg</Text></View>
-          </View>
-
+        <View style={styles.addDelContainer}>
+          {this.renderButtons()}
         </View>
-      <View></View>
+
+        <DisplayResult pokemonData={this.props.currentPokemonData} />
       </View>
     );
   }
@@ -81,36 +84,27 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5
   },
-  speciesSprite: {
+  btn: {
+    backgroundColor: "#eaeaea",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "black",
+    width: 60
+  },
+  btnText: {
+    fontSize: 20,
+    textAlign: "center",
+    color: "#444444"
+  },
+  addDelbtns: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "black",
-    backgroundColor: "red"
+    marginBottom: 15
   },
-  speciesTitle: {
-    marginLeft: 15,
-    fontSize: 40,
-    fontWeight: "bold"
-  },
-  sprite: {
-    backgroundColor: "gray",
-    width: 100,
-    height: 100,
-    marginRight: 15
-  },
-  searchResultInfo: {
-  },
-  infoItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-    
-  },
-  text:{
-    fontSize:25,
+  addDelContainer: {
+    marginBottom: 10,
     marginLeft: 15,
     marginRight: 15
   }
@@ -128,5 +122,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  null
+  {addPokemonToList,delPokemonFromList}
 )(Content);
