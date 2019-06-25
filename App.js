@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
 import magnifyingGlass from './src/img/magnifyingGlass.png';
-import listIcon from './src/img/listIcon.png';
+import ball from './src/img/ball.png';
 import star from './src/img/star.png';
 import gear from './src/img/gear.png';
 
@@ -39,7 +39,7 @@ const AppNavigator = createBottomTabNavigator ({
         return <Image source={magnifyingGlass} style={{width:30, height:30}}/>
       }
       if(routeName === 'List'){
-        return <Image source={listIcon} style={{width:30, height:30}} />
+        return <Image source={ball} style={{width:34, height:34}} />
       }
       if(routeName === 'Favorites'){
         return <Image source={star} style={{width:30, height:30}} />

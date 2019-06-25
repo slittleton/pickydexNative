@@ -7,38 +7,20 @@ import {
   StyleSheet
 } from "react-native";
 import { connect } from "react-redux";
+import SearchBox from './layout/SearchBox';
+
 
 class Content extends Component {
-  state = {
-    searchTerm: ""
-  };
-
-  search(searchItem) {}
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}> Pickydex </Text>
+        
+        <SearchBox/>
 
-        <View style={styles.searchBoxContainer}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Enter Pokemon Name"
-              placeholderTextColor="gray"
-              onChangeText={searchItem => {
-                this.setState({ searchTerm: searchItem });
-              }}
-              style={styles.textInput}
-            />
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => this.search(this.state.searchTerm)}
-            >
-              <Text style={styles.btnText}>Search</Text>
-            </TouchableOpacity>
-          </View>
+        <View>
+          <Text>{JSON.stringify(this.props)}</Text>
         </View>
       </View>
     );
@@ -50,34 +32,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#444444"
   },
-  searchBoxContainer:{
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
   title: {
     fontSize: 40,
-    backgroundColor: "red",
+    fontWeight:'bold',
+    backgroundColor: "#9b0000",
     textAlign: "center",
-    color: "black",
-    borderRadius: 20,
-    margin: 10
-  },
-  textInput: {
     color: "white",
-    fontSize: 20,
-    paddingLeft: 20
-  },
-  inputContainer: {
-    backgroundColor: "#444444"
-  },
-  btn: {
-    backgroundColor: "white",
-    width: 75,
-    borderRadius: 10
-  },
-  btnText: {
-    fontSize: 20,
-    textAlign: 'center'
+    marginTop: 5,
+    marginBottom: 5
   }
 });
 
