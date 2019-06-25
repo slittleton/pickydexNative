@@ -13,3 +13,11 @@ import {
 
 
 //================= POKEMON ACTIONS =================
+
+export const currentPokeSearch = searchTerm => (dispatch, getState) => {
+  dispatch({ type: CURRENT_SEARCHED_POKEMON, payload: searchTerm})
+}
+
+export const setCurrentPokemonData = data => (dispatch, getState) => {
+  dispatch({ type: CURRENT_POKEMON_DATA, payload: data})
+}
