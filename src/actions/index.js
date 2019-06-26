@@ -7,7 +7,8 @@ import {
   FAVORITES_LIST,
   SET_FAVORITES_LIST_FROM_LOCAL,
   SET_CURRENT_TRAINER,
-  UPDATE_POKEMON_LIST
+  UPDATE_POKEMON_LIST,
+  UPDATE_FAVORITES_LIST
 } from "./actionTypes";
 
 //================= LOGIN ACTIONS =================
@@ -24,19 +25,33 @@ export const setCurrentPokemonData = data => (dispatch, getState) => {
 }
 
 export const addPokemonToList = (currentPokemonData,pokemonList) => (dispatch, getState) => {
-
-  
   let newList = pokemonList.map(x => x);
   newList.unshift(currentPokemonData.species);
   
-  dispatch({type: UPDATE_POKEMON_LIST, payload: { newList }})
-
+  dispatch({type: UPDATE_POKEMON_LIST, payload: newList })
 }
 
-export const delPokemonFromList = (currentPokemonData,pokemonList) => (dispatch, getState) => {
+export const delPokemonFromList = (currentPokemonData, pokemonList, favoritesList) => (dispatch, getState) => {
 
   let newList = pokemonList.filter(item => item !== currentPokemonData.species);
   
-  dispatch({type: UPDATE_POKEMON_LIST, payload: { newList }})
+  if(favoritesList.includes(currentPokemonData.species)){
+    let newFavs = favoritesList.filter(item => item !== currentPokemonData.species)
+    dispatch({type: UPDATE_FAVORITES_LIST, payload: newFavs})
+  }
+  
+  dispatch({type: UPDATE_POKEMON_LIST, payload:  newList })
+}
 
+export const favoritePokemon = (favoritesList, currentPokemonData) => (dispatch,getState) => {
+  let newFavs = favoritesList.map(x => x);
+  newFavs.unshift(currentPokemonData.species);
+
+  dispatch({type: UPDATE_FAVORITES_LIST, payload: newFavs})
+
+}
+export const unfavoritePokemon = (favoritesList, currentPokemonData) => (dispatch,getState) => {
+  let newFavs = favoritesList.filter(item => item !== currentPokemonData.species)
+
+  dispatch({type: UPDATE_FAVORITES_LIST, payload: newFavs})
 }

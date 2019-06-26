@@ -1,29 +1,70 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native';
+import React, { Component } from 'react'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 
-const PokeList = () => {
-  return (
-    <View>
-      <Text style={styles.title}> Pokemon List </Text>
+class PokeList extends Component {
 
-    </View>
-  )
+navToPokemon(pokemon) {
+
 }
+
+renderList() {
+  let sortedList = this.props.pokemonList.map(x => x).sort();
+  return sortedList.map((pokemon, index) => {
+    return (
+      <View key={pokemon}>
+        <TouchableOpacity onPress={()=>this.navToPokemon(pokemon)}>
+          <Text style={styles.linkText}>{index + 1}. {pokemon}</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  })
+
+
+}
+
+
+render() {
+  const { pokemonList } = this.props
+  if(pokemonList) {
+    return (
+      <ScrollView>
+        <Text style={styles.title}> Pokemon List </Text>
+        <View>
+          {this.renderList()}
+        </View>
+      </ScrollView>
+    )
+  } else {
+    return (
+      <View>
+        <Text>You need to add some pokemon to your list</Text>
+      </View>
+    )
+  }
+
+}
+}
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 50,
+    textAlign: 'center',
+    backgroundColor: 'red',
+    color: 'black'
+  },
+  linkText: {
+    fontSize: 30,
+    marginLeft: 15
+  }
+})
 
 const mapStateToProps = state => {
   return {
-    state
+    currentPokemonData: state.pokeReducer.currentPokemonData,
+    pokemonList: state.pokeReducer.pokemonList,
+    searchedForPokemon: state.pokeReducer.searchedForPokemon,
   }
 }
   export default connect(mapStateToProps, null)(PokeList);
 
-  const styles = StyleSheet.create({
-    title: {
-      fontSize: 50,
-      textAlign: 'center',
-      backgroundColor: 'red',
-      color: 'black'
-    }
-  })

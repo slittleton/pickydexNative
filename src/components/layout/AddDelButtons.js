@@ -1,17 +1,17 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-
+import FavoriteButton from './FavoriteButton';
 
 addToList = (currentPokemonData, pokemonList, addPokemonToList) => {
   addPokemonToList(currentPokemonData, pokemonList)
 };
   
-delFromList = (currentPokemonData, pokemonList, delPokemonFromList) => {
-  delPokemonFromList(currentPokemonData, pokemonList)
+delFromList = (currentPokemonData, pokemonList, favoritesList, delPokemonFromList) => {
+  delPokemonFromList(currentPokemonData, pokemonList, favoritesList)
 };
 
 AddDelButtons = (props) => {
-  const { currentPokemonData, pokemonList, addPokemonToList, delPokemonFromList} = props.data;
+  const { currentPokemonData, pokemonList, addPokemonToList, favoritesList, delPokemonFromList} = props.data;
 
   if(currentPokemonData !== '' && !pokemonList.includes(currentPokemonData.species)){
     return (
@@ -28,10 +28,16 @@ AddDelButtons = (props) => {
   else if(pokemonList.includes(currentPokemonData.species)) {
     return (
       <View styles={styles.addDelbtns}>
-        <View>
-          <TouchableOpacity style={styles.btn} onPress={() => delFromList(currentPokemonData, pokemonList, delPokemonFromList)}>
-            <Text style={styles.btnText}>Delete</Text>
-          </TouchableOpacity>
+        {/* <Text>{JSON.stringify(props)}</Text> */}
+        <View style={styles.btnSpacer}>
+          <View>
+            <TouchableOpacity style={styles.btn} onPress={() => delFromList(currentPokemonData, pokemonList, favoritesList, delPokemonFromList)}>
+              <Text style={styles.btnText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <FavoriteButton favData={props.data}/>
+          </View>
         </View>
       </View>
     );
@@ -78,6 +84,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 15,
     marginRight: 15
+  },
+  btnFav:{
+    backgroundColor: "#eaeaea",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "black",
+    backgroundColor: 'white',
+    width: 90
+  },
+  btnSpacer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   }
 });
 

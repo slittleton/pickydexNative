@@ -4,14 +4,15 @@ import {
   SET_POKEMON_LIST_FROM_LOCAL,
   FAVORITES_LIST,
   SET_FAVORITES_LIST_FROM_LOCAL,
-  UPDATE_POKEMON_LIST
+  UPDATE_POKEMON_LIST,
+  UPDATE_FAVORITES_LIST
 } from '../actions/actionTypes';
 
 const initialState = {
-  pokemonList: ['pichu'],
+  pokemonList: ['pichu', 'pikachu'],
   searchedForPokemon: '',
   currentPokemonData: '',
-  favoritesList: []
+  favoritesList: ['pichu']
 }
 
 export default (state=initialState, action) => {
@@ -29,7 +30,12 @@ export default (state=initialState, action) => {
     case UPDATE_POKEMON_LIST:
       return{
         ...state,
-        pokemonList: action.payload.newList,
+        pokemonList: action.payload,
+      }
+    case UPDATE_FAVORITES_LIST:
+      return{
+        ...state,
+        favoritesList: action.payload,
       }
     default: return state
   }

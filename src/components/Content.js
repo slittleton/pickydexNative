@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { addPokemonToList, delPokemonFromList } from '../actions';
+import { addPokemonToList, delPokemonFromList, unfavoritePokemon, favoritePokemon } from '../actions';
 
 import SearchBox from './layout/SearchBox';
 import DisplayResult from './layout/DisplayResult';
@@ -19,13 +19,14 @@ import AddDelButtons from './layout/AddDelButtons';
 class Content extends Component {
 
   render() {
-    const { pokemonList, currentPokemonData} = this.props
+    const { pokemonList, currentPokemonData, favoritesList} = this.props
     return (
       <View style={styles.container}>
         <Text style={styles.title}> Pickydex </Text>
         <SearchBox />
         
-        <Text>{JSON.stringify(pokemonList)}</Text>
+        <Text>List: {JSON.stringify(pokemonList)}</Text>
+        <Text>Favs: {JSON.stringify(favoritesList)}</Text>
         
         <View style={styles.addDelContainer}>
           <AddDelButtons data={this.props}/>
@@ -69,5 +70,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {addPokemonToList,delPokemonFromList}
+  {addPokemonToList,delPokemonFromList, unfavoritePokemon, favoritePokemon}
 )(Content);
