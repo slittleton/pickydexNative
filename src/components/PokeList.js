@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-
+import { currentPokeSearch, setCurrentPokemonData } from '../actions';
+import SearchFunctionality from './layout/SearchFunctionality';
 
 class PokeList extends Component {
 
-navToPokemon(pokemon) {
+navToPokemon = async (pokemon) => {
+    let pokemonData = await SearchFunctionality.search(pokemon)
+    this.props.currentPokeSearch(pokemon);
+    this.props.setCurrentPokemonData(pokemonData);
 
+    
 }
 
 renderList() {
@@ -20,8 +25,6 @@ renderList() {
       </View>
     )
   })
-
-
 }
 
 
@@ -66,5 +69,5 @@ const mapStateToProps = state => {
     searchedForPokemon: state.pokeReducer.searchedForPokemon,
   }
 }
-  export default connect(mapStateToProps, null)(PokeList);
+  export default connect(mapStateToProps, { currentPokeSearch, setCurrentPokemonData })(PokeList);
 

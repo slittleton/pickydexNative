@@ -8,72 +8,19 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { currentPokeSearch, setCurrentPokemonData } from "../../actions";
+import SearchFunctionality from './SearchFunctionality';
+
 
 class SearchBox extends Component {
   state = {
     searchTerm: "",
-    species: "",
-    abilities: "",
-    height: "",
-    id: "",
-    types: [],
-    weight: "",
-    moves: [],
-    locations: [],
-    sprite: "",
-    info: ""
   };
 
-  search = async () => {
-    const { searchTerm } = this.state;
-
-    this.props.currentPokeSearch(searchTerm);
-    await this.getPokemonFromApi(searchTerm);
-
-    const pokemonData = this.state
-
-    // this.setState({info: pokemonData[searchTerm].species})
-    this.setState({info: this.props})
-
-    await this.props.setCurrentPokemonData(pokemonData);
-
-    ////////// navigate
-  };
-  getPokemonFromApi = async searchTerm => {
-    // URLS For Making Call To Api's
-    const pokemonInfoUrl = `https://pokeapi.co/api/v2/pokemon/${searchTerm}/`;
-    const pokemonLocationsUrl = `https://pokeapi.co/api/v2/pokemon/${searchTerm}/encounters`;
-
-    const receivedInfo = await this.fetchData(pokemonInfoUrl);
-    const receivedLocations = await this.fetchData(pokemonLocationsUrl);
-
-    this.infoToLocalState(receivedInfo);
-    this.locationsToLocalState(receivedLocations);
-  };
-  fetchData = async url => {
-    let data = null;
-
-    const response = await fetch(url);
-    await response.json().then(res=>data = res)
-    return data;
-  };
-
-  infoToLocalState = (data) =>{
-    this.setState({
-      species: data.species.name,
-      abilities: data.abilities.map(x => x.ability.name),
-      height: data.height,
-      id: data.id,
-      types: data.types.map(x => x.type.name),
-      weight: data.weight,
-      moves: data.moves.map(x => x.move.name),
-      sprite: data.sprites.front_default,
-    });
+  runSearch = async () => {
+    let pokemonData = await SearchFunctionality.search(this.state.searchTerm)
+    this.props.currentPokeSearch(this.state.searchTerm);
+    this.props.setCurrentPokemonData(pokemonData);
   }
-
-  locationsToLocalState = data => {
-    this.setState({ locations: data.map(elem => elem.location_area.name) });
-  };
 
   render() {
     return (
@@ -90,7 +37,7 @@ class SearchBox extends Component {
             />
           </View>
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={styles.btn} onPress={() => this.search()}>
+            <TouchableOpacity style={styles.btn} onPress={() => this.runSearch() }>
               <Text style={styles.btnText}>Search</Text>
             </TouchableOpacity>
           </View>
