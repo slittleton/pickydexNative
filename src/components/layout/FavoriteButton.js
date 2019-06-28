@@ -21,7 +21,6 @@ const FavoriteButton = props => {
   if (favoritesList.includes(currentPokemonData.species)) {
     return (
       <TouchableOpacity style={styles.btnFav} onPress={() => unfavorite(favoritesList, currentPokemonData, unfavoritePokemon)}>
-        {/* <Text>{JSON.stringify(props.favData)}</Text> */}
         <Text style={styles.btnText}>Unfavorite</Text>
       </TouchableOpacity>
     );

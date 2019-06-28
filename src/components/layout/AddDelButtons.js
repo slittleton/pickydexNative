@@ -4,6 +4,7 @@ import FavoriteButton from './FavoriteButton';
 
 addToList = (currentPokemonData, pokemonList, addPokemonToList) => {
   addPokemonToList(currentPokemonData, pokemonList)
+
 };
   
 delFromList = (currentPokemonData, pokemonList, favoritesList, delPokemonFromList) => {

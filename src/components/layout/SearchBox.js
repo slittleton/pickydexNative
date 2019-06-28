@@ -20,6 +20,7 @@ class SearchBox extends Component {
     let pokemonData = await SearchFunctionality.search(this.state.searchTerm)
     this.props.currentPokeSearch(this.state.searchTerm);
     this.props.setCurrentPokemonData(pokemonData);
+
   }
 
   render() {

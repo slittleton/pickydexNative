@@ -7,27 +7,61 @@ import {
   StyleSheet,
   Image
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
-
-import { addPokemonToList, delPokemonFromList, unfavoritePokemon, favoritePokemon } from '../actions';
+import { 
+  addPokemonToList, 
+  delPokemonFromList, 
+  unfavoritePokemon, 
+  favoritePokemon,
+  setPokemonList,
+  setFavoritesList,
+  setCurrentPokemonData,
+  currentPokeSearch
+} from '../actions';
 
 import SearchBox from './layout/SearchBox';
 import DisplayResult from './layout/DisplayResult';
 import AddDelButtons from './layout/AddDelButtons';
-
+import SearchFunctionality from './layout/SearchFunctionality';
 
 class Content extends Component {
+  state = {
+    test: '',
+    test2: ''
+  }
+
+  async componentDidMount () {
+    const pokemonList = await AsyncStorage.getItem('@pokemonList');
+    if(pokemonList !== null) {
+      const currentList = JSON.parse(pokemonList)
+      this.props.setPokemonList(currentList)
+
+
+      if(this.props.currentPokemonData !== '' && currentList.lenght > 0){
+        const random = currentList[Math.floor(Math.random() * currentList.length)]
+
+        let pokemonData = await SearchFunctionality.search(random)
+        this.props.setCurrentPokemonData(pokemonData);
+        this.props.currentPokeSearch(random)
+      }
+    }
+
+    const favoritesList = await AsyncStorage.getItem('@favoritesList');
+    if(favoritesList !== null) {
+      this.props.setFavoritesList(JSON.parse(favoritesList))
+    }
+
+
+  }
 
   render() {
     const { pokemonList, currentPokemonData, favoritesList} = this.props
     return (
       <View style={styles.container}>
         <Text style={styles.title}> Pickydex </Text>
+        <Text>{JSON.stringify(this.state.test2)}</Text>
         <SearchBox />
-        
-        <Text>List: {JSON.stringify(pokemonList)}</Text>
-        <Text>Favs: {JSON.stringify(favoritesList)}</Text>
-        
         <View style={styles.addDelContainer}>
           <AddDelButtons data={this.props}/>
         </View>
@@ -64,11 +98,20 @@ const mapStateToProps = state => {
     pokemonList: state.pokeReducer.pokemonList,
     favoritesList: state.pokeReducer.favoritesList,
     searchedForPokemon: state.pokeReducer.searchedForPokemon,
-    currentTrainer: state.trainerReducer
+    currentTrainer: state.trainerReducer.currentTrainer
   };
 };
 
 export default connect(
   mapStateToProps,
-  {addPokemonToList,delPokemonFromList, unfavoritePokemon, favoritePokemon}
+  {
+    addPokemonToList, 
+    delPokemonFromList, 
+    unfavoritePokemon, 
+    favoritePokemon, 
+    setPokemonList,
+    setFavoritesList,
+    setCurrentPokemonData,
+    currentPokeSearch
+  }
 )(Content);

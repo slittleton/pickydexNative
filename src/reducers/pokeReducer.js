@@ -1,18 +1,15 @@
 import {
   CURRENT_SEARCHED_POKEMON,
   CURRENT_POKEMON_DATA,
-  SET_POKEMON_LIST_FROM_LOCAL,
-  FAVORITES_LIST,
-  SET_FAVORITES_LIST_FROM_LOCAL,
   UPDATE_POKEMON_LIST,
   UPDATE_FAVORITES_LIST
 } from '../actions/actionTypes';
 
 const initialState = {
-  pokemonList: ['pichu', 'pikachu'],
+  pokemonList: [],
   searchedForPokemon: '',
   currentPokemonData: '',
-  favoritesList: ['pichu']
+  favoritesList: []
 }
 
 export default (state=initialState, action) => {

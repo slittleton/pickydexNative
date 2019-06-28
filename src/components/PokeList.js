@@ -11,7 +11,7 @@ navToPokemon = async (pokemon) => {
     this.props.currentPokeSearch(pokemon);
     this.props.setCurrentPokemonData(pokemonData);
 
-    
+    this.props.navigation.navigate('Home')
 }
 
 renderList() {
