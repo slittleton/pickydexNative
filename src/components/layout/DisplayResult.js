@@ -21,7 +21,7 @@ const Display = (props) => {
         <ScrollView>
         <View style={styles.speciesSprite}>
           <Text style={styles.speciesTitle}>{species}</Text>
-          <View styles={styles.sprite}>
+          <View >
             <Image source={{ uri: sprite }} style={styles.sprite} />
           </View>
         </View>
@@ -59,8 +59,12 @@ const Display = (props) => {
       </View>
         )
   }else {
+    
     return(
-      <View><Text>No data</Text></View>
+      <View>
+        <Text style={styles.textMsg}>You haven't added any pokemon to your pokedex yet.</Text>
+        <Text style={styles.textMsg}>Maybe you could try Evee or Pikachu?</Text>
+      </View>
     )
   }
 }
@@ -81,13 +85,14 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   speciesSprite: {
+    height: 100,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white",
     borderWidth: 1,
     borderColor: "black",
-    backgroundColor: "red",
+    backgroundColor: "#73b0ff",
 
   },
   speciesTitle: {
@@ -97,7 +102,6 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   sprite: {
-    backgroundColor: "gray",
     width: 150,
     height: 150,
     marginRight: 15,
@@ -118,6 +122,15 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     color: 'black'
+  },
+  textMsg: {
+    fontSize:25,
+    marginLeft: 15,
+    marginRight: 15,
+    color: 'black',
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginBottom: 10
   },
   textlist: {
     marginRight: 15,

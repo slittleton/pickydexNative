@@ -30,7 +30,7 @@ renderList() {
 
 render() {
   const { pokemonList } = this.props
-  if(pokemonList) {
+  if(pokemonList.length>0) {
     return (
       <ScrollView>
         <Text style={styles.title}> Pokemon List </Text>
@@ -41,9 +41,14 @@ render() {
     )
   } else {
     return (
-      <View>
-        <Text>You need to add some pokemon to your list</Text>
+      <ScrollView>
+      <Text style={styles.title}> Pokemon List </Text>
+      <View style={styles.msgBox}>
+        <Text style={styles.textMsg}>Uh Oh!</Text>
+        <Text style={styles.textMsg}>It looks like you haven't added any pokemon yet</Text>
       </View>
+    </ScrollView>
+
     )
   }
 
@@ -59,6 +64,18 @@ const styles = StyleSheet.create({
   linkText: {
     fontSize: 30,
     marginLeft: 15
+  },
+  textMsg: {
+    fontSize: 20,
+    margin: 20,
+    justifyContent: 'center',
+    textAlign:'center',
+    color: 'white'
+  },
+  msgBox: {
+    borderRadius: 10,
+    backgroundColor: '#4d4d4d',
+    margin: 20,
   }
 })
 

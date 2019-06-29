@@ -13,24 +13,36 @@ class SearchFunctionality extends Component {
   static fetchData = async url => {
     let data = null;
 
-    const response = await fetch(url);
-    await response.json().then(res => (data = res));
-    return data;
+    try {
+      const response = await fetch(url);
+      await response.json().then(res => (data = res));
+  
+      return data;
+    } catch (err){
+      return 'error'
+    }
+
   };
 
   static createInfoObject = (receivedInfo, receivedLocations) => {
-    let pokemonData = {
-      species: receivedInfo.species.name,
-      abilities: receivedInfo.abilities.map(x => x.ability.name),
-      height: receivedInfo.height,
-      id: receivedInfo.id,
-      types: receivedInfo.types.map(x => x.type.name),
-      weight: receivedInfo.weight,
-      moves: receivedInfo.moves.map(x => x.move.name),
-      sprite: receivedInfo.sprites.front_default,
-      locations: receivedLocations.map(elem => elem.location_area.name)
-    };
-    return pokemonData;
+    if(receivedInfo !== 'error'){
+      let pokemonData = {
+        species: receivedInfo.species.name,
+        abilities: receivedInfo.abilities.map(x => x.ability.name),
+        height: receivedInfo.height,
+        id: receivedInfo.id,
+        types: receivedInfo.types.map(x => x.type.name),
+        weight: receivedInfo.weight,
+        moves: receivedInfo.moves.map(x => x.move.name),
+        sprite: receivedInfo.sprites.front_default,
+        locations: receivedLocations.map(elem => elem.location_area.name)
+      };
+      return pokemonData;
+    } else {
+      return 'error'
+    }
+
+
   };
 }
 

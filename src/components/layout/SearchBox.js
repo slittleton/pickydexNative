@@ -13,15 +13,44 @@ import SearchFunctionality from './SearchFunctionality';
 
 class SearchBox extends Component {
   state = {
-    searchTerm: "",
+    searchTerm: '',
+    loadingMessage: null,
+    errorMsg: null,
   };
 
   runSearch = async () => {
-    let pokemonData = await SearchFunctionality.search(this.state.searchTerm)
-    this.props.currentPokeSearch(this.state.searchTerm);
-    this.props.setCurrentPokemonData(pokemonData);
+    this.setState({loadingMessage: null, errorMsg: null,})
+    this.renderLoading();
 
+    let term = this.state.searchTerm.toLowerCase()
+    let pokemonData = await SearchFunctionality.search(term)
+
+    if(pokemonData !== 'error'){
+      this.props.currentPokeSearch(term);
+      this.props.setCurrentPokemonData(pokemonData);
+    } else{
+      this.setState({
+        loadingMessage: null,
+        errorMsg:'Something Went Wrong Please Try again'
+      })
+      setTimeout(()=>{this.setState({errorMsg: null})}, 2000);
+    }
   }
+  renderLoading() {
+    this.setState({loadingMessage: 'LOADING...'})
+
+    setTimeout(()=>{this.setState({loadingMessage: ''})}, 2000);
+  }
+  
+  renderMsg(){
+    if(this.state.loadingMessage){
+      return(<Text style={styles.loadMsg}>{this.state.loadingMessage}</Text>)
+    }
+    if(this.state.errorMsg){
+      return(<Text style={styles.errMsg}>{this.state.errorMsg}</Text>)
+    }
+  }
+
 
   render() {
     return (
@@ -42,8 +71,9 @@ class SearchBox extends Component {
               <Text style={styles.btnText}>Search</Text>
             </TouchableOpacity>
           </View>
+          
         </View>
-
+        {this.renderMsg()}
       </View>
     );
   }
@@ -51,7 +81,7 @@ class SearchBox extends Component {
 
 const mapStateToProps = state => {
   return {
-    state
+    currentPokemonData: state.pokeReducer.currentPokemonData,
   };
 };
 
@@ -102,5 +132,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     color: "#444444"
+  },
+  loadMsg: {
+    color: 'black',
+    fontSize: 15,
+    marginLeft: 15
+  },
+  errMsg: {
+    color: 'tomato',
+    fontSize: 15,
+    marginLeft: 15
   }
 });

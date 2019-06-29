@@ -1,71 +1,73 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   TextInput,
   StyleSheet,
-  Image
-} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import { connect } from 'react-redux';
-import { 
-  addPokemonToList, 
-  delPokemonFromList, 
-  unfavoritePokemon, 
+  Image,
+  Dimensions,
+  ScrollView
+} from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
+import { connect } from "react-redux";
+import {
+  addPokemonToList,
+  delPokemonFromList,
+  unfavoritePokemon,
   favoritePokemon,
   setPokemonList,
   setFavoritesList,
   setCurrentPokemonData,
   currentPokeSearch
-} from '../actions';
+} from "../actions";
 
-import SearchBox from './layout/SearchBox';
-import DisplayResult from './layout/DisplayResult';
-import AddDelButtons from './layout/AddDelButtons';
-import SearchFunctionality from './layout/SearchFunctionality';
+import SearchBox from "./layout/SearchBox";
+import DisplayResult from "./layout/DisplayResult";
+import AddDelButtons from "./layout/AddDelButtons";
+import SearchFunctionality from "./layout/SearchFunctionality";
+// import logo from "../img/pickydex-logo.png";
+import ball from "../img/ball.png";
+
+const { width, height } = Dimensions.get("window");
 
 class Content extends Component {
-  state = {
-    test: '',
-    test2: ''
-  }
+  state = { value: null };
 
-  async componentDidMount () {
-    const pokemonList = await AsyncStorage.getItem('@pokemonList');
-    if(pokemonList !== null) {
-      const currentList = JSON.parse(pokemonList)
-      this.props.setPokemonList(currentList)
+  async componentDidMount() {
+    const pokemonList = await AsyncStorage.getItem("@pokemonList");
+    if (pokemonList !== null) {
+      const currentList = JSON.parse(pokemonList);
+      this.props.setPokemonList(currentList);
 
+      if (this.props.currentPokemonData === "" && currentList.length > 0) {
+        const random =
+          currentList[Math.floor(Math.random() * currentList.length)];
 
-      if(this.props.currentPokemonData !== '' && currentList.lenght > 0){
-        const random = currentList[Math.floor(Math.random() * currentList.length)]
-
-        let pokemonData = await SearchFunctionality.search(random)
+        let pokemonData = await SearchFunctionality.search(random);
         this.props.setCurrentPokemonData(pokemonData);
-        this.props.currentPokeSearch(random)
+        this.props.currentPokeSearch(random);
       }
     }
 
-    const favoritesList = await AsyncStorage.getItem('@favoritesList');
-    if(favoritesList !== null) {
-      this.props.setFavoritesList(JSON.parse(favoritesList))
+    const favoritesList = await AsyncStorage.getItem("@favoritesList");
+    if (favoritesList !== null) {
+      this.props.setFavoritesList(JSON.parse(favoritesList));
     }
-
-
   }
 
   render() {
-    const { pokemonList, currentPokemonData, favoritesList} = this.props
+    const { pokemonList, currentPokemonData, favoritesList } = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.title}> Pickydex </Text>
-        <Text>{JSON.stringify(this.state.test2)}</Text>
-        <SearchBox />
-        <View style={styles.addDelContainer}>
-          <AddDelButtons data={this.props}/>
-        </View>
-        <DisplayResult pokemonData={currentPokemonData} />
+        <Image source={require('../img/pickydex-logo.png')} style={styles.image} />
+        <ScrollView>
+          <SearchBox />
+          <View style={styles.addDelContainer}>
+            <AddDelButtons data={this.props} />
+          </View>
+          <DisplayResult pokemonData={currentPokemonData} />
+        </ScrollView>
       </View>
     );
   }
@@ -73,22 +75,31 @@ class Content extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "white"
+    flex: 1
+  },
+  imageBox: {
+    width: 200,
+    height: 200,
+    backgroundColor: "red"
+  },
+  image: {
+    width: undefined,
+    height: 110,
+    padding: 20
   },
   title: {
-    fontSize: 40,
-    fontWeight: "bold",
-    backgroundColor: "#9b0000",
-    textAlign: "center",
-    color: "white",
-    marginTop: 5,
-    marginBottom: 5
+    flex: 1,
+    alignSelf: "stretch",
+    height: undefined,
+    width: undefined
   },
   addDelContainer: {
     marginBottom: 10,
     marginLeft: 15,
     marginRight: 15
+  },
+  textsize: {
+    fontSize: 25
   }
 });
 
@@ -105,10 +116,10 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    addPokemonToList, 
-    delPokemonFromList, 
-    unfavoritePokemon, 
-    favoritePokemon, 
+    addPokemonToList,
+    delPokemonFromList,
+    unfavoritePokemon,
+    favoritePokemon,
     setPokemonList,
     setFavoritesList,
     setCurrentPokemonData,

@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     backgroundColor: 'white',
-    width: 90
+    paddingLeft: 5,
+    paddingRight: 5
   }
 })
 
