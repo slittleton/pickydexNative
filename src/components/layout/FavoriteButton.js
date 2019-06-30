@@ -1,26 +1,27 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-const favorite = (favoritesList, currentPokemonData, favoritePokemon) => {
-  favoritePokemon(favoritesList, currentPokemonData);
+const favorite = (pokemon, favoritePokemon) => {
+  favoritePokemon(pokemon);
 }
-const unfavorite = (favoritesList, currentPokemonData, unfavoritePokemon) => {
-  unfavoritePokemon(favoritesList, currentPokemonData);
+const unfavorite = (pokemon, unfavoritePokemon) => {
+  unfavoritePokemon(pokemon);
 }
 
 const FavoriteButton = props => {
   const {favoritesList, currentPokemonData,favoritePokemon, unfavoritePokemon} = props.favData;
+  const pokemon = currentPokemonData.species;
   
-  if (!favoritesList.includes(currentPokemonData.species)) {
+  if (!favoritesList.includes(pokemon)) {
     return (
-      <TouchableOpacity style={styles.btnFav} onPress={() => favorite(favoritesList, currentPokemonData,favoritePokemon )}>
+      <TouchableOpacity style={styles.btnFav} onPress={() => favorite(pokemon, favoritePokemon)}>
         <Text style={styles.btnText}>Favorite</Text>
       </TouchableOpacity>
     );
   }
-  if (favoritesList.includes(currentPokemonData.species)) {
+  if (favoritesList.includes(pokemon)) {
     return (
-      <TouchableOpacity style={styles.btnFav} onPress={() => unfavorite(favoritesList, currentPokemonData, unfavoritePokemon)}>
+      <TouchableOpacity style={styles.btnFav} onPress={() => unfavorite(pokemon, unfavoritePokemon)}>
         <Text style={styles.btnText}>Unfavorite</Text>
       </TouchableOpacity>
     );

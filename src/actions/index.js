@@ -33,20 +33,27 @@ export const setFavoritesList = favsList => (dispatch, getState) => {
 }
 
 //---------------- ADD TO LIST ----------------
-export const addPokemonToList = (currentPokemonData,pokemonList) => async (dispatch, getState) => {
+export const addPokemonToList = (pokemon) => async (dispatch, getState) => {
+  const state = getState();
+  const {pokemonList} = state.pokeReducer
+
   let newList = pokemonList.map(x => x);
-  newList.unshift(currentPokemonData.species);
+  newList.unshift(pokemon);
 
   await AsyncStorage.setItem('@pokemonList', JSON.stringify(newList));
 
   dispatch({type: UPDATE_POKEMON_LIST, payload: newList })
 }
 //---------------- DELETE FROM LIST ----------------
-export const delPokemonFromList = (currentPokemonData, pokemonList, favoritesList) => async (dispatch, getState) => {
-  let newList = pokemonList.filter(item => item !== currentPokemonData.species);
+export const delPokemonFromList = (pokemon) => async (dispatch, getState) => {
+
+  const state = getState();
+  const {pokemonList, favoritesList} = state.pokeReducer
+
+  let newList = pokemonList.filter(item => item !== pokemon);
   
-  if(favoritesList.includes(currentPokemonData.species)){
-    let newFavs = favoritesList.filter(item => item !== currentPokemonData.species)
+  if(favoritesList.includes(pokemon)){
+    let newFavs = favoritesList.filter(item => item !== pokemon)
 
     await AsyncStorage.setItem('@favoritesList', JSON.stringify(newFavs))
 
@@ -57,18 +64,26 @@ export const delPokemonFromList = (currentPokemonData, pokemonList, favoritesLis
   dispatch({type: UPDATE_POKEMON_LIST, payload:  newList })
 }
 
+
 //---------------- ADD FAVORITE TO LIST ----------------
-export const favoritePokemon = (favoritesList, currentPokemonData) => async (dispatch,getState) => {
+
+export const favoritePokemon = (pokemon) => async (dispatch,getState) => {
+  let state = getState();
+  const {favoritesList} = state.pokeReducer;
+
   let newFavs = favoritesList.map(x => x);
-  newFavs.unshift(currentPokemonData.species);
+  newFavs.unshift(pokemon);
 
   await AsyncStorage.setItem('@favoritesList', JSON.stringify(newFavs))
 
   dispatch({type: UPDATE_FAVORITES_LIST, payload: newFavs})
 }
 //---------------- DELETE FAVORITE FROM LIST ----------------
-export const unfavoritePokemon = (favoritesList, currentPokemonData) => async (dispatch,getState) => {
-  let newFavs = favoritesList.filter(item => item !== currentPokemonData.species)
+export const unfavoritePokemon = (pokemon) => async (dispatch,getState) => {
+  let state = getState();
+  const {favoritesList} = state.pokeReducer;
+
+  let newFavs = favoritesList.filter(item => item !== pokemon)
   
   await AsyncStorage.setItem('@favoritesList', JSON.stringify(newFavs))
 

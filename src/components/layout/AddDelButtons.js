@@ -2,23 +2,24 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import FavoriteButton from './FavoriteButton';
 
-addToList = (currentPokemonData, pokemonList, addPokemonToList) => {
-  addPokemonToList(currentPokemonData, pokemonList)
+addToList = (pokemon, addPokemonToList) => {
+  addPokemonToList(pokemon)
 
 };
   
-delFromList = (currentPokemonData, pokemonList, favoritesList, delPokemonFromList) => {
-  delPokemonFromList(currentPokemonData, pokemonList, favoritesList)
+delFromList = (pokemon, delPokemonFromList) => {
+  delPokemonFromList(pokemon)
 };
 
 AddDelButtons = (props) => {
-  const { currentPokemonData, pokemonList, addPokemonToList, favoritesList, delPokemonFromList} = props.data;
+  const { currentPokemonData, pokemonList, addPokemonToList, delPokemonFromList} = props.data;
+  const pokemon = currentPokemonData.species
 
-  if(currentPokemonData !== '' && !pokemonList.includes(currentPokemonData.species)){
+  if(pokemon !== '' && !pokemonList.includes(pokemon)){
     return (
       <View styles={styles.addDelbtns}>
         <View>
-          <TouchableOpacity style={styles.btn} onPress={() => addToList(currentPokemonData, pokemonList, addPokemonToList)}>
+          <TouchableOpacity style={styles.btn} onPress={() => addToList(pokemon, addPokemonToList)}>
             <Text style={styles.btnText}>Add</Text>
           </TouchableOpacity>
         </View>
@@ -26,13 +27,12 @@ AddDelButtons = (props) => {
     );
   } 
   
-  else if(pokemonList.includes(currentPokemonData.species)) {
+  else if(pokemonList.includes(pokemon)) {
     return (
       <View styles={styles.addDelbtns}>
-        {/* <Text>{JSON.stringify(props)}</Text> */}
         <View style={styles.btnSpacer}>
           <View>
-            <TouchableOpacity style={styles.btn} onPress={() => delFromList(currentPokemonData, pokemonList, favoritesList, delPokemonFromList)}>
+            <TouchableOpacity style={styles.btn} onPress={() => delFromList(pokemon, delPokemonFromList)}>
               <Text style={styles.btnText}>Delete</Text>
             </TouchableOpacity>
           </View>

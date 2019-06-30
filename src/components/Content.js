@@ -57,7 +57,7 @@ class Content extends Component {
   }
 
   render() {
-    const { pokemonList, currentPokemonData, favoritesList } = this.props;
+    const { currentPokemonData } = this.props;
     return (
       <View style={styles.container}>
         <Image source={require('../img/pickydex-logo.png')} style={styles.image} />

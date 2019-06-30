@@ -8,7 +8,7 @@ import {
   Image
 } from "react-native";
 import { connect } from "react-redux";
-import { currentPokeSearch, setCurrentPokemonData } from "../actions";
+import { currentPokeSearch, setCurrentPokemonData, delPokemonFromList } from "../actions";
 import SearchFunctionality from "./layout/SearchFunctionality";
 
 class PokeList extends Component {
@@ -20,16 +20,29 @@ class PokeList extends Component {
     this.props.navigation.navigate("Home");
   };
 
+  
+  delFromList = (pokemon) => {
+    this.props.delPokemonFromList(pokemon)
+  };
+
   renderList() {
-    let sortedList = this.props.pokemonList.map(x => x).sort();
+    const { pokemonList } = this.props;
+    let sortedList = pokemonList.map(x => x).sort();
+
     return sortedList.map((pokemon, index) => {
       return (
         <View key={pokemon}>
-          <TouchableOpacity onPress={() => this.navToPokemon(pokemon)}>
-            <Text style={styles.linkText}>
-              {index + 1}. {pokemon}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.spacer}>
+            <TouchableOpacity onPress={() => this.navToPokemon(pokemon)}>
+              <Text style={styles.linkText}>
+                {index + 1}. {pokemon}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.btn} onPress={()=>this.delFromList(pokemon)}>
+              <Text style={styles.btnText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       );
     });
@@ -39,7 +52,7 @@ class PokeList extends Component {
     const { pokemonList } = this.props;
     if (pokemonList.length > 0) {
       return (
-        <ScrollView>
+        <View style={styles.container}>
           <View style={styles.backcolor}>
             <View style={styles.imageContainer}>
               <Text style={styles.title}> Pokemon List </Text>
@@ -49,12 +62,14 @@ class PokeList extends Component {
               />
             </View>
           </View>
-          <View>{this.renderList()}</View>
-        </ScrollView>
+          <ScrollView>
+            <View style={styles.backcolor}>{this.renderList()}</View>
+          </ScrollView>
+        </View>
       );
     } else {
       return (
-        <View>
+        <View style={styles.container}>
           <View style={styles.backcolor}>
             <View style={styles.imageContainer}>
               <Text style={styles.title}> Pokemon List </Text>
@@ -68,6 +83,12 @@ class PokeList extends Component {
           <ScrollView>
             <View style={styles.msgBox}>
               <Text style={styles.textMsg}>Uh Oh!</Text>
+              <View style={styles.mainImageContainer}>
+                <Image
+                  source={require("../img/openball.png")}
+                  style={styles.mainImage}
+                />
+              </View>
               <Text style={styles.textMsg}>
                 It looks like you haven't added any pokemon yet
               </Text>
@@ -79,11 +100,14 @@ class PokeList extends Component {
   }
 }
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "gold",
+    flex: 1
+  },
   title: {
     fontSize: 40,
     textAlign: "center",
     backgroundColor: "#0793ff",
-    color: "black",
     fontFamily: "Pokemon Solid",
     color: "gold",
     textShadowColor: "rgba(0, 0, 0, 0.75)",
@@ -92,23 +116,31 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 30,
-    marginLeft: 15
+    color: "white",
+    marginLeft: 15,
+    marginBottom: 5
   },
   textMsg: {
-    fontSize: 20,
+    fontSize: 25,
     margin: 20,
     justifyContent: "center",
     textAlign: "center",
-    color: "white"
+    color: "white",
+    fontWeight: "bold"
   },
   msgBox: {
     borderRadius: 10,
-    backgroundColor: "#4d4d4d",
-    margin: 20
+    backgroundColor: "#0793ff",
+    margin: 10
   },
   image: {
     height: 50,
     width: 50
+  },
+  mainImage: {
+    height: 150,
+    width: 150,
+    justifyContent: "center"
   },
   imageContainer: {
     backgroundColor: "#0793ff",
@@ -118,8 +150,35 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center"
   },
+  mainImageContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   backcolor: {
-    backgroundColor: "#0793ff"
+    backgroundColor: "#0793ff",
+    borderRadius: 10,
+    margin: 10
+  },
+  spacer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  btn: {
+    backgroundColor: "#0793ff",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "white",
+    marginRight: 5,
+    paddingLeft: 3,
+    paddingRight: 3
+  },
+  btnText: {
+    fontSize: 20,
+    textAlign: "center",
+    color: "white"
   }
 });
 
@@ -127,10 +186,11 @@ const mapStateToProps = state => {
   return {
     currentPokemonData: state.pokeReducer.currentPokemonData,
     pokemonList: state.pokeReducer.pokemonList,
-    searchedForPokemon: state.pokeReducer.searchedForPokemon
+    searchedForPokemon: state.pokeReducer.searchedForPokemon,
+    favoritesList: state.pokeReducer.favoritesList,
   };
 };
 export default connect(
   mapStateToProps,
-  { currentPokeSearch, setCurrentPokemonData }
+  { currentPokeSearch, setCurrentPokemonData, delPokemonFromList }
 )(PokeList);

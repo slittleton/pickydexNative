@@ -54,10 +54,14 @@ export default connect(
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 50,
+    fontSize: 40,
     textAlign: "center",
-    backgroundColor: "cyan",
-    color: "black"
+    backgroundColor: "#0793ff",
+    fontFamily: "Pokemon Solid",
+    color: "gold",
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: -3, height: 3 },
+    textShadowRadius: 10
   },
   infoContainer: {
     backgroundColor: '#d4d4d4',
@@ -70,6 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: 'black',
     marginLeft: 10,
+
   },
   textInput: {
     color: "black",
