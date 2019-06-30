@@ -36,7 +36,7 @@ const Display = (props) => {
           </View>
           <View style={styles.infoItem}>
             <View><Text style={styles.text}>Abilities:</Text></View>
-            <View><Text style={styles.text}>{abilities.join(", ")}</Text></View>
+            <View><Text style={styles.textAbilities}>{abilities.join(", ")}</Text></View>
           </View>
           <View style={styles.infoItem}>
             <View><Text style={styles.text}>Height:</Text></View>
@@ -85,13 +85,11 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   speciesSprite: {
-    height: 100,
+    height: 125,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "black",
     backgroundColor: "#73b0ff",
 
   },
@@ -119,6 +117,12 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize:25,
+    marginLeft: 15,
+    marginRight: 15,
+    color: 'black'
+  },
+  textAbilities: {
+    fontSize:18,
     marginLeft: 15,
     marginRight: 15,
     color: 'black'
