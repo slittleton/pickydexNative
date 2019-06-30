@@ -5,7 +5,8 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Image
+  Image,
+  ImageBackground
 } from "react-native";
 import { connect } from "react-redux";
 import { currentPokeSearch, setCurrentPokemonData, unfavoritePokemon } from "../actions";
@@ -32,10 +33,15 @@ class FavsList extends Component {
       return (
         <View key={pokemon}>
           <View style={styles.spacer}>
-            <TouchableOpacity onPress={() => this.navToPokemon(pokemon)}>
+            <TouchableOpacity onPress={() => this.navToPokemon(pokemon)} style={styles.starSpacer}>
+            <Image
+                source={require("../img/shinystar.png")}
+                style={styles.image}
+              />
               <Text style={styles.linkText}>
                 {index + 1}. {pokemon} 
               </Text>
+
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.btn} onPress={()=>this.delFromLFavorites(pokemon)}>
@@ -51,23 +57,28 @@ class FavsList extends Component {
     const { favoritesList } = this.props;
     if (favoritesList.length > 0) {
       return (
+ 
+  
         <View style={styles.container}>
           <View style={styles.backcolor}>
             <View style={styles.imageContainer}>
               <Text style={styles.title}> Favorites List </Text>
               <Image
-                source={require("../img/shinystar.png")}
+                source={require("../img/pokeball-flat.png")}
                 style={styles.image}
               />
             </View>
           </View>
           <ScrollView>
             <View style={styles.backcolor}>{this.renderList()}</View>
+
           </ScrollView>
         </View>
+
       );
     } else {
       return (
+        
         <View style={styles.container}>
           <View style={styles.backcolor}>
             <View style={styles.imageContainer}>
@@ -161,6 +172,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+  },
+  starSpacer: {
+    flex: 1,
+    flexDirection: "row",
     alignItems: "center",
   },
   btn: {
