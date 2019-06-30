@@ -4,10 +4,13 @@ class SearchFunctionality extends Component {
   static search = async searchTerm => {
     const pokemonInfoUrl = `https://pokeapi.co/api/v2/pokemon/${searchTerm}/`;
     const pokemonLocationsUrl = `https://pokeapi.co/api/v2/pokemon/${searchTerm}/encounters`;
+    const speciesData = `https://pokeapi.co/api/v2/pokemon-species/${searchTerm}/`;
+
     const receivedInfo = await this.fetchData(pokemonInfoUrl);
     const receivedLocations = await this.fetchData(pokemonLocationsUrl);
+    const receivedSpecies = await this.fetchData(speciesData)
 
-    return this.createInfoObject(receivedInfo, receivedLocations);
+    return this.createInfoObject(receivedInfo, receivedLocations,receivedSpecies);
   };
 
   static fetchData = async url => {
@@ -24,10 +27,20 @@ class SearchFunctionality extends Component {
 
   };
 
-  static createInfoObject = (receivedInfo, receivedLocations) => {
+  static createInfoObject = (receivedInfo, receivedLocations, receivedSpecies) => {
     if(receivedInfo !== 'error'){
+      let entries = receivedSpecies.flavor_text_entries
+
+      for(let i = 0; i< entries.length; i++){
+        if(entries[i].language.name === "en"){
+          entries = entries[i].flavor_text;
+          break
+        }
+      }
+
       let pokemonData = {
         species: receivedInfo.species.name,
+        flavorText: entries,
         abilities: receivedInfo.abilities.map(x => x.ability.name),
         height: receivedInfo.height,
         id: receivedInfo.id,
@@ -36,6 +49,7 @@ class SearchFunctionality extends Component {
         moves: receivedInfo.moves.map(x => x.move.name),
         sprite: receivedInfo.sprites.front_default,
         locations: receivedLocations.map(elem => elem.location_area.name)
+ 
       };
       return pokemonData;
     } else {

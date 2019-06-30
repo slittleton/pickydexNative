@@ -12,7 +12,8 @@ const Display = (props) => {
     weight,
     moves,
     locations,
-    sprite
+    sprite,
+    flavorText
   } = props.pokemonData;
 
   if(species){
@@ -47,9 +48,13 @@ const Display = (props) => {
             <View><Text style={styles.text}>{weight / 10} kg</Text></View>
           </View>
           <View>
+            <View><Text style={styles.text}>Descrpition:</Text></View>
+            <View><Text style={styles.textBlock}>{flavorText}</Text></View>
+          </View>
+          {/* <View>
             <View><Text style={styles.text}>Locations:</Text></View>
             <View><Text style={styles.textlist}>{locations.join(", ")}</Text></View>
-          </View>
+          </View> */}
           <View >
             <View><Text style={styles.text}>Moves:</Text></View>
             <View><Text style={styles.textlist}>{moves.join(", ")}</Text></View>
@@ -141,6 +146,13 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     alignItems: 'center',
     fontSize: 18
+  },
+  textBlock: {
+    flex: 1,
+    alignItems: 'center',
+    marginRight: 15,
+    marginLeft: 15,
+    fontSize: 15
   }
 });
 
