@@ -53,8 +53,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50,
     textAlign: 'center',
+    fontFamily: 'Pokemon Solid',
+    color: '#0793ff',
     backgroundColor: 'gold',
-    color: 'black'
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: -3, height: 3 },
+    textShadowRadius: 10
   },
   linkText: {
     fontSize: 30,

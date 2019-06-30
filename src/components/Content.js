@@ -84,8 +84,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: undefined,
-    height: 110,
-    padding: 20
+    height: 125,
+    backgroundColor: 'white'
+  
   },
   title: {
     flex: 1,
