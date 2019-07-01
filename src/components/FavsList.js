@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   msgBox: {
     borderRadius: 10,
-    backgroundColor: "#ffe875",
+    backgroundColor: "white",
     margin: 10
   },
   image: {
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   backcolor: {
-    backgroundColor: "#ffe875",
+    backgroundColor: "white",
     borderRadius: 10,
     margin: 10
   },

@@ -3,39 +3,52 @@ import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { connect } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { setTrainerName } from '../actions';
+import { tsThisType } from "@babel/types";
 
 
 class Trainer extends Component {
   state = {
     trainerName: "",
-    name:''
+    err: null,
+
+    errColor:null,
   };
 
   changeName () {
-    this.props.setTrainerName(this.state.trainerName);
+    if(this.state.trainerName !== '' && this.state.trainerName !== null){
+      this.props.setTrainerName(this.state.trainerName);
+    } else {
+      this.trainerNameErr()
+    }
   }
 
+  trainerNameErr () {
+    this.setState({ err: "Please Enter A Trainer Name"})
+    setTimeout(()=>{this.setState({ err: null})}, 2500)
+  }
   render() {
     return (
-      <View>
+      <View style={styles.trainerContainer}>
         <Text style={styles.title}>Settings</Text>
-
-        <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Trainer: {this.props.currentTrainer}</Text>
-        </View>
-        <View>
-          <TextInput
-            placeholder="Enter New Trainer Name"
-            placeholderTextColor="gray"
-            onChangeText={name => {this.setState({ trainerName: name });}}
-            style={styles.textInput}
-          />
-          <View style={styles.btnContainer}>
-            <TouchableOpacity onPress={this.changeName.bind(this)} style={styles.btn}>
-              <Text style={styles.btnText}>Submit</Text>
-            </TouchableOpacity>
+        <View style={styles.colorBox}>
+          <View style={styles.infoContainer}>
+            <Text style={styles.infoText}>Trainer: {this.props.currentTrainer}</Text>
           </View>
+          <View>
+            <TextInput
+              placeholder="Enter New Trainer Name"
+              placeholderTextColor="gray"
+              onChangeText={name => {this.setState({ trainerName: name });}}
+              style={styles.textInput}
+            />
+            <View style={styles.btnContainer}>
+              <TouchableOpacity onPress={this.changeName.bind(this)} style={styles.btn}>
+                <Text style={styles.btnText}>Submit</Text>
+              </TouchableOpacity>
+            </View>
 
+          </View>
+          <View><Text style={styles.err}>{this.state.err}</Text></View>
         </View>
 
       </View>
@@ -58,28 +71,35 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#0793ff",
     fontFamily: "Pokemon Solid",
-    color: "gold",
+    color: "#ffe875",
     textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -3, height: 3 },
-    textShadowRadius: 10
+    textShadowRadius: 10,
+    borderRadius: 10,
+    padding: 5,
+    margin: 10
   },
   infoContainer: {
-    backgroundColor: '#d4d4d4',
+    backgroundColor: "#0793ff",
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'black',
+    borderWidth: 4,
+    borderColor: '#ffe875',
     margin: 10
   },
   infoText: {
     fontSize: 25,
-    color: 'black',
+    color: '#ffe875',
     marginLeft: 10,
-
+    fontWeight: 'bold'
   },
   textInput: {
+    backgroundColor:'white',
     color: "black",
     fontSize: 20,
-    paddingLeft: 15
+    paddingLeft: 15,
+    margin: 10,
+    borderRadius: 10
+
   },
   inputContainer: {
     backgroundColor: "white",
@@ -100,5 +120,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     color: "#444444"
+  },
+  err: {
+    color: '#ab1f00',
+    fontSize: 20,
+    margin: 10,
+    textAlign: 'center',
+    borderRadius: 10,
+    fontWeight: 'bold'
+  },
+  trainerContainer: {
+    flex: 1,
+    backgroundColor: 'white'
+  },
+  colorBox: {
+    backgroundColor: "#0793ff",
+    margin:10,
+    borderRadius: 10
   }
 });

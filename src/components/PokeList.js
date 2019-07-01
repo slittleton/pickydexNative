@@ -101,7 +101,7 @@ class PokeList extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "gold",
+    backgroundColor: "white",
     flex: 1
   },
   title: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#0793ff",
     fontFamily: "Pokemon Solid",
-    color: "gold",
+    color: "#ffe875",
     textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -3, height: 3 },
     textShadowRadius: 10

@@ -1,7 +1,7 @@
 import { SET_CURRENT_TRAINER } from '../actions/actionTypes';
 
 const initialState = {
-  currentTrainer: 'Picky'
+  currentTrainer: 'no name selected'
 }
 
 export default (state=initialState, action) => {

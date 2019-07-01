@@ -9,7 +9,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 
 //================= LOGIN ACTIONS =================
-export const setTrainerName = name => (dispatch, getState) => {
+export const setTrainerName = name => async (dispatch, getState) => {
+
+  await AsyncStorage.setItem('@currentTrainer', JSON.stringify(name));
+
   dispatch({ type: SET_CURRENT_TRAINER, payload: name})
 }
 

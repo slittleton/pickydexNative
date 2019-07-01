@@ -19,28 +19,26 @@ import {
   setPokemonList,
   setFavoritesList,
   setCurrentPokemonData,
-  currentPokeSearch
+  currentPokeSearch,
+  setTrainerName,
 } from "../actions";
 
 import SearchBox from "./layout/SearchBox";
 import DisplayResult from "./layout/DisplayResult";
 import AddDelButtons from "./layout/AddDelButtons";
 import SearchFunctionality from "./layout/SearchFunctionality";
-// import logo from "../img/pickydex-logo.png";
-import ball from "../img/ball.png";
 
-const { width, height } = Dimensions.get("window");
 
 class Content extends Component {
-  state = { value: null };
+  state = { value: '' };
 
   async componentDidMount() {
-    const pokemonList = await AsyncStorage.getItem("@pokemonList");
+    const pokemonList = await AsyncStorage.getItem('@pokemonList');
     if (pokemonList !== null) {
       const currentList = JSON.parse(pokemonList);
       this.props.setPokemonList(currentList);
 
-      if (this.props.currentPokemonData === "" && currentList.length > 0) {
+      if (this.props.currentPokemonData === '' && currentList.length > 0) {
         const random =
           currentList[Math.floor(Math.random() * currentList.length)];
 
@@ -50,23 +48,33 @@ class Content extends Component {
       }
     }
 
-    const favoritesList = await AsyncStorage.getItem("@favoritesList");
+    const favoritesList = await AsyncStorage.getItem('@favoritesList');
     if (favoritesList !== null) {
       this.props.setFavoritesList(JSON.parse(favoritesList));
     }
+
+    const trainerName = await AsyncStorage.getItem('@currentTrainer')
+    if(trainerName !== null) {
+      this.props.setTrainerName(JSON.parse(trainerName));
+    }
+    this.setState({value: trainerName})
   }
 
   render() {
-    const { currentPokemonData } = this.props;
+    const { currentPokemonData, currentTrainer } = this.props;
     return (
       <View style={styles.container}>
-        <Image source={require('../img/pickydex-logo.png')} style={styles.image} />
+        <View style={styles.spacer}>
+          <Text style={styles.trainerName}>Trainer: {currentTrainer}</Text>
+          <Text style={styles.logo}> Pickydex </Text>
+        </View>
+        
         <ScrollView>
           <SearchBox />
           <View style={styles.addDelContainer}>
             <AddDelButtons data={this.props} />
           </View>
-          <DisplayResult pokemonData={currentPokemonData} />
+          <DisplayResult pokemonData={currentPokemonData}/>
         </ScrollView>
       </View>
     );
@@ -75,18 +83,8 @@ class Content extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  imageBox: {
-    width: 200,
-    height: 200,
-    backgroundColor: "red"
-  },
-  image: {
-    width: undefined,
-    height: 125,
+    flex: 1,
     backgroundColor: 'white'
-  
   },
   title: {
     flex: 1,
@@ -101,6 +99,29 @@ const styles = StyleSheet.create({
   },
   textsize: {
     fontSize: 25
+  },
+  trainerName: {
+    fontSize: 20,
+    marginLeft: 15,
+    color: 'white',
+    textAlign: 'center'
+  },
+  spacer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: '#0793ff',
+    margin:5,
+    borderRadius: 10
+  },
+  logo: {
+    color: '#ffe875',
+    padding: 5,
+    fontSize: 30,
+    textShadowColor:'black',
+    textShadowOffset:{width: 2, height: 2},
+    textShadowRadius:10,
+    fontFamily: "Pokemon Solid",
   }
 });
 
@@ -124,6 +145,7 @@ export default connect(
     setPokemonList,
     setFavoritesList,
     setCurrentPokemonData,
-    currentPokeSearch
+    currentPokeSearch,
+    setTrainerName
   }
 )(Content);

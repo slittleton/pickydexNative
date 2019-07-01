@@ -16,20 +16,31 @@ const Display = (props) => {
     flavorText
   } = props.pokemonData;
 
+  let capitalized =''
+
+  //capitalize species name
+  species ?
+   capitalized = species.charAt(0).toUpperCase() + species.slice(1) : null;
+  
+
   if(species){
     return(
       <View>
         <ScrollView>
-        <View style={styles.speciesSprite}>
-          <Text style={styles.speciesTitle}>{species}</Text>
-          <View >
-            <Image source={{ uri: sprite }} style={styles.sprite} />
+          <View>
+            <View style={styles.speciesSprite}>
+              <Text style={styles.speciesTitle}>{capitalized}</Text>
+              <View >
+                <Image source={{ uri: sprite }} style={styles.sprite} />
+              </View>
+
+            </View>
           </View>
-        </View>
+
         <View style={styles.searchResultInfo}>
           <View style={styles.infoItem}>
             <View><Text style={styles.text}>Species:</Text></View>
-            <View><Text style={styles.text}>{species}</Text></View>
+            <View><Text style={styles.text}>{capitalized}</Text></View>
           </View>
           <View style={styles.infoItem}>
             <View><Text style={styles.text}>Type(s):</Text></View>
@@ -51,10 +62,13 @@ const Display = (props) => {
             <View><Text style={styles.text}>Descrpition:</Text></View>
             <View><Text style={styles.textBlock}>{flavorText}</Text></View>
           </View>
-          {/* <View>
+
+          { locations.length > 0 ?  
+          <View>
             <View><Text style={styles.text}>Locations:</Text></View>
             <View><Text style={styles.textlist}>{locations.join(", ")}</Text></View>
-          </View> */}
+          </View>: null }
+
           <View >
             <View><Text style={styles.text}>Moves:</Text></View>
             <View><Text style={styles.textlist}>{moves.join(", ")}</Text></View>
@@ -68,7 +82,13 @@ const Display = (props) => {
     return(
       <View>
         <Text style={styles.textMsg}>You haven't added any pokemon to your pokedex yet.</Text>
-        <Text style={styles.textMsg}>Maybe you could try Evee or Pikachu?</Text>
+        <View style={styles.mainImageContainer}>
+          <Image
+            source={require("../../img/openball.png")}
+            style={styles.mainImage}
+          />
+        </View>
+        <Text style={styles.textMsg}>Maybe you could try Eevee or Pikachu?</Text>
       </View>
     )
   }
@@ -90,19 +110,20 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   speciesSprite: {
-    height: 125,
+    height: 135,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white",
-    backgroundColor: "#73b0ff",
-
+    backgroundColor: "#0793ff",
+    margin: 5,
+    borderRadius: 10
   },
   speciesTitle: {
     marginLeft: 15,
     fontSize: 40,
     fontWeight: "bold",
-    color: 'black'
+    color: 'gold'
   },
   sprite: {
     width: 150,
@@ -127,7 +148,7 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   textAbilities: {
-    fontSize:18,
+    fontSize:16,
     marginLeft: 15,
     marginRight: 15,
     color: 'black'
@@ -152,7 +173,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 15,
     marginLeft: 15,
-    fontSize: 15
+    fontSize: 18
+  },
+  mainImage: {
+    height: 150,
+    width: 150,
+    justifyContent: "center"
+  },
+  imageContainer: {
+    backgroundColor: "#0793ff",
+    marginRight: 15,
+    marginLeft: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  mainImageContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 

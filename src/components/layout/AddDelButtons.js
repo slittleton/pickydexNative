@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "black",
-    width: 60
+    paddingLeft: 3,
+    paddingRight: 3
   },
   btnText: {
     fontSize: 20,
