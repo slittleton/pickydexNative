@@ -33,12 +33,17 @@ class PokeList extends Component {
       return (
         <View key={pokemon}>
           <View style={styles.spacer}>
-            <TouchableOpacity onPress={() => this.navToPokemon(pokemon)}>
-              <Text style={styles.linkText}>
-                {index + 1}. {pokemon}
-              </Text>
-            </TouchableOpacity>
-
+            <View style={{flexDirection: 'row', alignItems: 'center', margin:3}}>
+              <Image
+                source={require("../img/pokeball-flat.png")}
+                style={styles.image}
+              />
+              <TouchableOpacity onPress={() => this.navToPokemon(pokemon)}>
+                <Text style={styles.linkText}>
+                  {index + 1}. {pokemon}
+                </Text>
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity style={styles.btn} onPress={()=>this.delFromList(pokemon)}>
               <Text style={styles.btnText}>Delete</Text>
             </TouchableOpacity>
@@ -54,13 +59,7 @@ class PokeList extends Component {
       return (
         <View style={styles.container}>
           <View style={styles.backcolor}>
-            <View style={styles.imageContainer}>
               <Text style={styles.title}> Pokemon List </Text>
-              <Image
-                source={require("../img/pokeball-flat.png")}
-                style={styles.image}
-              />
-            </View>
           </View>
           <ScrollView>
             <View style={styles.backcolor}>{this.renderList()}</View>
@@ -71,15 +70,8 @@ class PokeList extends Component {
       return (
         <View style={styles.container}>
           <View style={styles.backcolor}>
-            <View style={styles.imageContainer}>
               <Text style={styles.title}> Pokemon List </Text>
-              <Image
-                source={require("../img/pokeball-flat.png")}
-                style={styles.image}
-              />
-            </View>
           </View>
-
           <ScrollView>
             <View style={styles.msgBox}>
               <Text style={styles.textMsg}>Uh Oh!</Text>
@@ -102,7 +94,7 @@ class PokeList extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    flex: 1
+    flex: 1,
   },
   title: {
     fontSize: 40,
@@ -112,12 +104,13 @@ const styles = StyleSheet.create({
     color: "#ffe875",
     textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -3, height: 3 },
-    textShadowRadius: 10
+    textShadowRadius: 10,
+    borderRadius: 10
   },
   linkText: {
-    fontSize: 30,
+    fontSize: 25,
     color: "white",
-    marginLeft: 15,
+    marginLeft: 5,
     marginBottom: 5
   },
   textMsg: {
@@ -134,21 +127,17 @@ const styles = StyleSheet.create({
     margin: 10
   },
   image: {
-    height: 50,
-    width: 50
+    height: 40,
+    width: 40
   },
   mainImage: {
     height: 150,
     width: 150,
     justifyContent: "center"
   },
-  imageContainer: {
-    backgroundColor: "#0793ff",
-    marginRight: 15,
-    marginLeft: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+  centerContent: {
+    justifyContent: "center",
+    textAlign: 'center',
   },
   mainImageContainer: {
     display: "flex",
@@ -156,7 +145,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   backcolor: {
-    backgroundColor: "#0793ff",
+    backgroundColor: '#0793ff',
     borderRadius: 10,
     margin: 10
   },

@@ -15,7 +15,7 @@ AddDelButtons = (props) => {
   const { currentPokemonData, pokemonList, addPokemonToList, delPokemonFromList} = props.data;
   const pokemon = currentPokemonData.species
 
-  if(pokemon !== '' && !pokemonList.includes(pokemon)){
+  if(pokemon !== '' && !pokemonList.includes(pokemon) && currentPokemonData !== ''){
     return (
       <View styles={styles.addDelbtns}>
         <View>
@@ -44,7 +44,7 @@ AddDelButtons = (props) => {
     );
   }
   else {
-    return <Text>{JSON.stringify(props.addPokemonToList)}</Text>
+    return <Text></Text>
   }
 }
 

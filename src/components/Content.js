@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   trainerName: {
-    fontSize: 20,
+    fontSize: 15,
     marginLeft: 15,
     color: 'white',
     textAlign: 'center'

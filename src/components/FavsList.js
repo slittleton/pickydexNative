@@ -61,12 +61,8 @@ class FavsList extends Component {
   
         <View style={styles.container}>
           <View style={styles.backcolor}>
-            <View style={styles.imageContainer}>
+            <View style={{alignItems: 'center'}}>
               <Text style={styles.title}> Favorites List </Text>
-              <Image
-                source={require("../img/pokeball-flat.png")}
-                style={styles.image}
-              />
             </View>
           </View>
           <ScrollView>
@@ -124,9 +120,9 @@ const styles = StyleSheet.create({
     textShadowRadius: 10
   },
   linkText: {
-    fontSize: 30,
+    fontSize: 25,
     color: "#0793ff",
-    marginLeft: 15,
+    marginLeft: 5,
     marginBottom: 5
   },
   textMsg: {
